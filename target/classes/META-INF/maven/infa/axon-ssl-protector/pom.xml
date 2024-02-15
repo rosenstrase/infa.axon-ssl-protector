@@ -9,8 +9,7 @@
   <version>0.0.1-SNAPSHOT</version>
 
   <name>axon-ssl-protector</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://github.com/rosenstrase/infa.axon-ssl-protector</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,6 +24,36 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+		<groupId>org.junit.jupiter</groupId>
+		<artifactId>junit-jupiter-engine</artifactId>
+		<version>5.2.0</version>
+		<scope>test</scope>
+  	</dependency>
+  	<dependency>
+		<groupId>org.junit.platform</groupId>
+		<artifactId>junit-platform-runner</artifactId>
+		<version>1.2.0</version>
+		<scope>test</scope>
+  	</dependency>
+  	<dependency>
+		<groupId>org.junit.jupiter</groupId>
+		<artifactId>junit-jupiter-params</artifactId>
+		<version>5.2.0</version>
+		<scope>test</scope>
+	</dependency>
+    <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk18on -->
+	<dependency>
+    	<groupId>org.bouncycastle</groupId>
+    	<artifactId>bcprov-jdk18on</artifactId>
+    	<version>1.77</version>
+	</dependency>
+		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk18on -->
+	<dependency>
+    	<groupId>org.bouncycastle</groupId>
+    	<artifactId>bcpkix-jdk18on</artifactId>
+    	<version>1.77</version>
+	</dependency>
   </dependencies>
 
   <build>
@@ -47,10 +76,33 @@
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
+          <dependencies>
+               <dependency>
+                   <groupId>org.junit.platform</groupId>
+                   <artifactId>junit-platform-surefire-provider</artifactId>
+                   <version>1.2.0</version>
+               </dependency>
+           </dependencies>
+           <configuration>
+           	<additionalClasspathElements>
+           		<additionalClasspathElement>src/test/java/</additionalClasspathElement>
+           	</additionalClasspathElements>
+           </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
+          <configuration>
+        <archive>
+            <manifest>
+                <addClasspath>true</addClasspath>
+                <classpathPrefix>src/main/java/</classpathPrefix>
+                <mainClass>
+                    infa.axon-ssl-protector.Main                
+                </mainClass>
+            </manifest>
+        </archive>
+    </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>

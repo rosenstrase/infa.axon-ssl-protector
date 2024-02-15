@@ -1,5 +1,8 @@
 Manifest-Version: 1.0
 Built-By: nporter
 Build-Jdk: 17.0.8
+Class-Path: src/main/java/bcprov-jdk18on-1.77.jar src/main/java/bcpkix-j
+ dk18on-1.77.jar src/main/java/bcutil-jdk18on-1.77.jar
+Main-Class: infa.axon-ssl-protector.Main
 Created-By: Maven Integration for Eclipse
 
