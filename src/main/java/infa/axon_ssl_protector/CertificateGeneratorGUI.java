@@ -3,6 +3,8 @@ package infa.axon_ssl_protector;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.net.URLDecoder;
 import java.security.cert.X509Certificate;
 
 import javax.swing.JButton;
@@ -97,8 +99,13 @@ public class CertificateGeneratorGUI extends JFrame {
 			try {
 				X509Certificate cert = certGen.generateX509Certificate(keyGen.getPrivateKey(), keyGen.getPublicKey(),
 						issuer, 0, true);
+
+				String jarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+				String decodedPath = URLDecoder.decode(jarPath, "UTF-8");
+				String directory = new File(decodedPath).getParent();
+				String fileName = directory + File.separator + "private";
+
 				CertificateWriter certificateWriter = new CertificateWriter();
-				String fileName = "C://Users//nporter//OneDrive - Informatica//Desktop/private";
 				certificateWriter.writeCertificateToFile(cert, fileName, ".crt");
 				JOptionPane.showMessageDialog(this, "Certificate generated successfully");
 				dispose();

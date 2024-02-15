@@ -7,8 +7,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import infa.axon_ssl_protector.CertificateGeneratorGUI;
-
 public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = -1668300803666889008L;
@@ -20,7 +18,7 @@ public class MainFrame extends JFrame {
 
 		JMenuBar menuBar = new JMenuBar();
 		JMenu settingsMenu = new JMenu("Settings");
-		JMenuItem menuItem = new JMenuItem("Menu Item");
+		JMenuItem menuItem = new JMenuItem("This is a placeholder for menu items");
 		settingsMenu.add(menuItem);
 		menuBar.add(settingsMenu);
 

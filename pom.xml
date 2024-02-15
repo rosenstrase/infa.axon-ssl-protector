@@ -97,7 +97,7 @@
             <manifest>
                 <addClasspath>true</addClasspath>
                 <mainClass>
-                    infa.axon-ssl-protector.Main                
+                    infa.axon_ssl_protector.Main                
                 </mainClass>
             </manifest>
         </archive>
