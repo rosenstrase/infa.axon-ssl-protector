@@ -96,7 +96,6 @@
         <archive>
             <manifest>
                 <addClasspath>true</addClasspath>
-                <classpathPrefix>src/main/java/</classpathPrefix>
                 <mainClass>
                     infa.axon-ssl-protector.Main                
                 </mainClass>

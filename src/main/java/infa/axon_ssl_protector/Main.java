@@ -2,8 +2,6 @@ package infa.axon_ssl_protector;
 
 import javax.swing.SwingUtilities;
 
-import infa.axon_ssl_protector.MainFrame;
-
 public class Main 
 {
 	public static void main(String[] args) {
@@ -14,7 +12,7 @@ public class Main
 			});
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace();// test
 		}
     }
 }
