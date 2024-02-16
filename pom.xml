@@ -134,6 +134,9 @@
    			<artifactId>maven-assembly-plugin</artifactId>
     		<version>3.6.0</version>
     		<configuration>
+          		<descriptorRefs>
+            		<descriptorRef>jar-with-dependencies</descriptorRef>
+          		</descriptorRefs>
     			<archive>
       				<manifest>
        	 				<mainClass>infa.axon_ssl_protector.Main</mainClass>
