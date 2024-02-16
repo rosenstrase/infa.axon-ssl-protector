@@ -97,21 +97,25 @@ public class CertificateGeneratorGUI extends JFrame {
 			X509CertificateGenerator certGen = new X509CertificateGenerator(keyGen);
 
 			try {
-				X509Certificate cert = certGen.generateX509Certificate(keyGen.getPrivateKey(), keyGen.getPublicKey(),
-						issuer, 0, true);
-
 				String jarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
 				String decodedPath = URLDecoder.decode(jarPath, "UTF-8");
 				String directory = new File(decodedPath).getParent();
 				String fileName = directory + File.separator + "private";
 
-				CertificateWriter certificateWriter = new CertificateWriter();
-				certificateWriter.writeCertificateToFile(cert, fileName, ".crt");
-				JOptionPane.showMessageDialog(this, "Certificate generated successfully");
-				dispose();
-			} catch (Exception ex) {
+
+				try {
+					X509Certificate cert = certGen.generateX509Certificate(keyGen.getPrivateKey(),
+							keyGen.getPublicKey(), issuer, 0, true);
+					CertificateWriter certificateWriter = new CertificateWriter();
+					certificateWriter.writeCertificateToFile(cert, fileName, ".crt");
+					JOptionPane.showMessageDialog(this, "Certificate generated successfully");
+					dispose();
+				} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this, "Error generating certificate: " + ex.getMessage(), "Error",
 						JOptionPane.ERROR_MESSAGE);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
