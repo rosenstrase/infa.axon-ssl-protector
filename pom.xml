@@ -4,8 +4,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>infa</groupId>
-  <artifactId>axon-ssl-protector</artifactId>
+  <groupId>gcs.infa.maven</groupId>
+  <artifactId>axonsslprotector</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
   <name>axon-ssl-protector</name>
@@ -63,6 +63,11 @@
 	</dependency>
 	<dependency>
     	<groupId>org.bouncycastle</groupId>
+    	<artifactId>bcprov-jdk15on</artifactId>
+    	<version>1.70</version>
+	</dependency>
+	<dependency>
+    	<groupId>org.bouncycastle</groupId>
     	<artifactId>bcpkix-jdk18on</artifactId>
     	<version>1.77</version>
     	<type>jar</type>
@@ -105,7 +110,7 @@
         		<archive>
             		<manifest>
                 		<addClasspath>true</addClasspath>
-               				 <mainClass>infa.axon_ssl_protector.Main</mainClass>
+               				 <mainClass>gcs.infa.maven.axonsslprotector.Main</mainClass>
             		</manifest>
         		</archive>
    	 		</configuration>
@@ -139,7 +144,7 @@
           		</descriptorRefs>
     			<archive>
       				<manifest>
-       	 				<mainClass>infa.axon_ssl_protector.Main</mainClass>
+       	 				<mainClass>gcs.infa.maven.axonsslprotector.Main</mainClass>
       				</manifest>
     			</archive>
   			</configuration>
