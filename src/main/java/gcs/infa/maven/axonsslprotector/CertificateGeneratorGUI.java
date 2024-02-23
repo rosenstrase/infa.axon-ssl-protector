@@ -91,8 +91,10 @@ public class CertificateGeneratorGUI extends JFrame {
 
 			KeyGenerator keyGen = new KeyGenerator(SignatureAlgorithm.RSA, 4096);
 
-			X500Name issuer = new X500Name("E=" + email + ", CN=" + commonName + ", OU= " + organizationalunit + ", O="
-					+ organization + ", L= " + locality + ", ST= " + state + ", C=" + country);
+			String dn = "E=" + email + ", CN=" + commonName + ", OU= " + organizationalunit + ", O=" + organization
+					+ ", L= " + locality + ", ST= " + state + ", C=" + country;
+
+			X500Name issuer = new X500Name(dn);
 
 			X509CertificateGenerator certGen = new X509CertificateGenerator(keyGen);
 
