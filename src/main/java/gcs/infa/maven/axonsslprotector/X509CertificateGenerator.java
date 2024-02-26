@@ -25,8 +25,12 @@ public class X509CertificateGenerator implements CertificateGeneratorInterface {
 	private final KeyGenerator keyGenerator;
 	private static final String signatureRsa = "SHA256withRSA";
 
-	public X509CertificateGenerator(KeyGenerator keyGenerator) {
-		this.keyGenerator = keyGenerator;
+	public X509CertificateGenerator() {
+		try {
+			this.keyGenerator = (KeyGenerator) ServiceLocator.getService("KeyGenerator");
+		} catch (ClassCastException e) {
+			throw new RuntimeException("Service Locator returned an object that could not be cast to KeyGenerator", e);
+		}
 	}
 
 	private JcaPKCS10CertificationRequest generateCSR(PublicKey publicKey) throws OperatorCreationException {

@@ -87,40 +87,34 @@ public class CertificateGeneratorGUI extends JFrame {
 		String commonName = cnField.getText();
 		String email = eField.getText();
 
+		String dn = "E=" + email + ", CN=" + commonName + ", OU= " + organizationalunit + ", O=" + organization
+				+ ", L= " + locality + ", ST= " + state + ", C=" + country;
+
+		X500Name issuer = new X500Name(dn);
+
 		try {
 
-			KeyGenerator keyGen = new KeyGenerator(SignatureAlgorithm.RSA, 4096);
+			KeyGenerator keyGen = (KeyGenerator) ServiceLocator.getService("KeyGenerator");
 
-			String dn = "E=" + email + ", CN=" + commonName + ", OU= " + organizationalunit + ", O=" + organization
-					+ ", L= " + locality + ", ST= " + state + ", C=" + country;
+			X509CertificateGenerator certGen = (X509CertificateGenerator) ServiceLocator
+					.getService("X509CertificateGenerator");
 
-			X500Name issuer = new X500Name(dn);
+			String jarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+			String decodedPath = URLDecoder.decode(jarPath, "UTF-8");
+			String directory = new File(decodedPath).getParent();
+			String fileName = directory + File.separator + "private";
 
-			X509CertificateGenerator certGen = new X509CertificateGenerator(keyGen);
+			X509Certificate cert = certGen.generateX509Certificate(keyGen.getPrivateKey(), keyGen.getPublicKey(),
+					issuer, 0, true);
 
-			try {
-				String jarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-				String decodedPath = URLDecoder.decode(jarPath, "UTF-8");
-				String directory = new File(decodedPath).getParent();
-				String fileName = directory + File.separator + "private";
+			CertificateWriter certificateWriter = (CertificateWriter) ServiceLocator.getService("CertificateWriter");
+			certificateWriter.writeCertificateToFile(cert, fileName, ".crt");
 
-
-				try {
-					X509Certificate cert = certGen.generateX509Certificate(keyGen.getPrivateKey(),
-							keyGen.getPublicKey(), issuer, 0, true);
-					CertificateWriter certificateWriter = new CertificateWriter();
-					certificateWriter.writeCertificateToFile(cert, fileName, ".crt");
-					JOptionPane.showMessageDialog(this, "Certificate generated successfully");
-					dispose();
-				} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, "Error generating certificate: " + ex.getMessage(), "Error",
-						JOptionPane.ERROR_MESSAGE);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Certificate generated successfully");
+			dispose();
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, "Error generating certificate: " + ex.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }
