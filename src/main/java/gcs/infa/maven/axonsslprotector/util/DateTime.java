@@ -1,21 +1,15 @@
 package gcs.infa.maven.axonsslprotector.util;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 
 public enum DateTime {
-	INSTANCE, START_DATE, END_DATE;
+	INSTANCE, START_DATE, END_DATE, validityPeriodOrNull, DEFAULT_VALIDITY_PERIOD;
 
-	static final long ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
-	static final long TEN_YEARS_IN_MILLIS = 100 * 365 * ONE_DAY_IN_MILLIS;
-
-	public Date getCurrentDateTime() {
-		LocalDateTime currentDateTime = LocalDateTime.now();
-		return Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
-	}
-
-	public Date calculateEndDate(Date startDate, int validityTimeout) {
-		return new Date(startDate.getTime() + validityTimeout * ONE_DAY_IN_MILLIS);
+	public static Date calculateEndDate(Date startDate, int validityDays) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(startDate);
+		calendar.add(Calendar.DAY_OF_YEAR, validityDays);
+		return calendar.getTime();
 	}
 }

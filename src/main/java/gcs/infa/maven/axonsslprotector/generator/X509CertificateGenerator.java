@@ -7,8 +7,6 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Date;
 
-import javax.security.auth.x500.X500Principal;
-
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
 import org.bouncycastle.cert.jcajce.JcaX509v1CertificateBuilder;
@@ -16,9 +14,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
-import org.bouncycastle.pkcs.PKCS10CertificationRequestBuilder;
-import org.bouncycastle.pkcs.jcajce.JcaPKCS10CertificationRequest;
-import org.bouncycastle.pkcs.jcajce.JcaPKCS10CertificationRequestBuilder;
 
 import gcs.infa.maven.axonsslprotector.service.GenerateKeypair;
 import gcs.infa.maven.axonsslprotector.service.ServiceLocator;
@@ -28,6 +23,8 @@ public class X509CertificateGenerator implements CertificateGenerator {
 
 	private final GenerateKeypair keyGenerator;
 	private static final String signatureRsa = "SHA256withRSA";
+	private static final int DEFAULT_VALIDITY_PERIOD = 365;
+	private static final boolean DEFAULT_IS_CA = false;
 
 	public X509CertificateGenerator() {
 		try {
@@ -37,34 +34,28 @@ public class X509CertificateGenerator implements CertificateGenerator {
 		}
 	}
 
-	private JcaPKCS10CertificationRequest generateCSR(PublicKey publicKey) throws OperatorCreationException {
-		PKCS10CertificationRequestBuilder p10Builder = new JcaPKCS10CertificationRequestBuilder(
-				new X500Principal("CN=Test"), publicKey);
-		ContentSigner signer = new JcaContentSignerBuilder(X509CertificateGenerator.signatureRsa)
-				.build(keyGenerator.getPrivateKey());
-		return new JcaPKCS10CertificationRequest(p10Builder.build(signer));
-	}
-
 	@Override
 	public X509Certificate generateX509Certificate(PrivateKey privateKey, PublicKey publicKey, X500Name issuer,
-			int validityTimeout, boolean basicConstraints) {
+			Integer validityPeriodOrNull, Boolean isCAOrNull) throws CertificateException, OperatorCreationException {
+
+		final int validityPeriod = (validityPeriodOrNull != null) ? validityPeriodOrNull : DEFAULT_VALIDITY_PERIOD;
+		final boolean isCA = (isCAOrNull != null) ? isCAOrNull : DEFAULT_IS_CA;
+		Date startDate = new Date();
+		Date endDate = DateTime.calculateEndDate(startDate, validityPeriod);
+
+		java.math.BigInteger serial = generateSerialNumber();
+
 		try {
-			java.math.BigInteger serial = generateSerialNumber();
-			Date startDate = DateTime.START_DATE.getCurrentDateTime();
-			Date endDate = DateTime.END_DATE.calculateEndDate(startDate, validityTimeout);
+			JcaX509v1CertificateBuilder caBuilder = new JcaX509v1CertificateBuilder(new X500Name(issuer.toString()),
+					serial, startDate, endDate, new X500Name(issuer.toString()), publicKey);
 
-			JcaPKCS10CertificationRequest certReq = generateCSR(publicKey);
-
-			JcaX509v1CertificateBuilder caBuilder = buildCertificateBuilder(issuer, serial, startDate, endDate,
-					certReq.getPublicKey());
-
-			ContentSigner caSigner = signCertificate(privateKey);
-			X509Certificate cert = signX509Certificate(caBuilder, caSigner);
-
+			ContentSigner caSigner = new JcaContentSignerBuilder(signatureRsa).build(privateKey);
+			X509Certificate cert = new JcaX509CertificateConverter().setProvider(new BouncyCastleProvider())
+					.getCertificate(caBuilder.build(caSigner));
 			return cert;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+
+		} catch (OperatorCreationException | CertificateException e) {
+			throw e;
 		}
 	}
 
@@ -73,21 +64,4 @@ public class X509CertificateGenerator implements CertificateGenerator {
 		new SecureRandom().nextBytes(randomBytes);
 		return new java.math.BigInteger(1, randomBytes);
 	}
-
-	private static JcaX509v1CertificateBuilder buildCertificateBuilder(X500Name issuer, java.math.BigInteger serial,
-			Date startDate, Date endDate, PublicKey publicKey) {
-		return new JcaX509v1CertificateBuilder(issuer, serial, startDate, endDate, issuer, publicKey);
-	}
-
-	private static ContentSigner signCertificate(PrivateKey privateKey) throws OperatorCreationException {
-		return new JcaContentSignerBuilder(signatureRsa).setProvider(new BouncyCastleProvider()).build(privateKey);
-	}
-
-	private static X509Certificate signX509Certificate(JcaX509v1CertificateBuilder caBuilder, ContentSigner caSigner)
-			throws CertificateException {
-		JcaX509CertificateConverter converter = new JcaX509CertificateConverter()
-				.setProvider(new BouncyCastleProvider());
-		return converter.getCertificate(caBuilder.build(caSigner));
-	}
-
 }

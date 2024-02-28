@@ -1,32 +1,23 @@
 package gcs.infa.maven.axonsslprotector.ui;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.net.URLDecoder;
-import java.security.cert.X509Certificate;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.bouncycastle.asn1.x500.X500Name;
-
-import gcs.infa.maven.axonsslprotector.generator.X509CertificateGenerator;
-import gcs.infa.maven.axonsslprotector.main.Main;
-import gcs.infa.maven.axonsslprotector.service.GenerateKeypair;
+import gcs.infa.maven.axonsslprotector.generator.CertificateGenerator;
+import gcs.infa.maven.axonsslprotector.processor.CertificateDataProcessor;
+import gcs.infa.maven.axonsslprotector.processor.GenerateCertificateAction;
+import gcs.infa.maven.axonsslprotector.processor.SimpleCertificateDataProcessor;
 import gcs.infa.maven.axonsslprotector.service.ServiceLocator;
-import gcs.infa.maven.axonsslprotector.writer.FileCertificateWriter;
+import gcs.infa.maven.axonsslprotector.writer.CertificateWriter;
 
 public class CertificateGeneratorGUI extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1147658359L;
 
 	private JTextField eField;
@@ -55,12 +46,7 @@ public class CertificateGeneratorGUI extends JFrame {
 		cField = new JTextField(20);
 
 		JButton generateButton = new JButton("Generate Certificate");
-		generateButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				generateCertificate();
-			}
-		});
+		generateButton.addActionListener(createGenerateCertificateAction());
 
 		panel.add(new JLabel("Email:"));
 		panel.add(eField);
@@ -83,44 +69,40 @@ public class CertificateGeneratorGUI extends JFrame {
 		setVisible(true);
 	}
 
-	private void generateCertificate() {
+	private ActionListener createGenerateCertificateAction() {
+		CertificateDataProcessor dataProcessor = new SimpleCertificateDataProcessor();
+		CertificateGenerator certGenerator = (CertificateGenerator) ServiceLocator
+				.getService("X509CertificateGenerator");
+		CertificateWriter certWriter = (CertificateWriter) ServiceLocator.getService("CertificateWriter");
 
-		String country = cField.getText();
-		String state = stField.getText();
-		String locality = lField.getText();
-		String organization = oField.getText();
-		String organizationalunit = ouField.getText();
-		String commonName = cnField.getText();
-		String email = eField.getText();
+		return new GenerateCertificateAction(this, dataProcessor, certGenerator, certWriter);
+	}
 
-		String dn = "E=" + email + ", CN=" + commonName + ", OU= " + organizationalunit + ", O=" + organization
-				+ ", L= " + locality + ", ST= " + state + ", C=" + country;
+	public String getCountryField() {
+		return cField.getText();
+	}
 
-		X500Name issuer = new X500Name(dn);
+	public String getStateField() {
+		return stField.getText();
+	}
 
-		try {
+	public String getLocalityField() {
+		return lField.getText();
+	}
 
-			GenerateKeypair keyGen = (GenerateKeypair) ServiceLocator.getService("KeyGenerator");
+	public String getOrganizationField() {
+		return oField.getText();
+	}
 
-			X509CertificateGenerator certGen = (X509CertificateGenerator) ServiceLocator
-					.getService("X509CertificateGenerator");
+	public String getOrganizationalUnitField() {
+		return ouField.getText();
+	}
 
-			String jarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-			String decodedPath = URLDecoder.decode(jarPath, "UTF-8");
-			String directory = new File(decodedPath).getParent();
-			String fileName = directory + File.separator + "private";
+	public String getCommonNameField() {
+		return cnField.getText();
+	}
 
-			X509Certificate cert = certGen.generateX509Certificate(keyGen.getPrivateKey(), keyGen.getPublicKey(),
-					issuer, 0, true);
-
-			FileCertificateWriter certificateWriter = (FileCertificateWriter) ServiceLocator.getService("CertificateWriter");
-			certificateWriter.writeCertificateToFile(cert, fileName, ".crt");
-
-			JOptionPane.showMessageDialog(this, "Certificate generated successfully");
-			dispose();
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, "Error generating certificate: " + ex.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
-			}
+	public String getEmailField() {
+		return eField.getText();
 	}
 }

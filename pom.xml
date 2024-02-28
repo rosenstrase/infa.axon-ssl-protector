@@ -110,7 +110,7 @@
         		<archive>
             		<manifest>
                 		<addClasspath>true</addClasspath>
-               				 <mainClass>gcs.infa.maven.axonsslprotector.Main</mainClass>
+               				 <mainClass>gcs.infa.maven.axonsslprotector.main.Main</mainClass>
             		</manifest>
         		</archive>
    	 		</configuration>
@@ -138,13 +138,21 @@
 		<plugin>
    			<artifactId>maven-assembly-plugin</artifactId>
     		<version>3.6.0</version>
+    		<executions>
+				<execution>
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+				</execution>
+			</executions>
     		<configuration>
           		<descriptorRefs>
             		<descriptorRef>jar-with-dependencies</descriptorRef>
           		</descriptorRefs>
     			<archive>
       				<manifest>
-       	 				<mainClass>gcs.infa.maven.axonsslprotector.Main</mainClass>
+       	 				<mainClass>gcs.infa.maven.axonsslprotector.main.Main</mainClass>
       				</manifest>
     			</archive>
   			</configuration>
