@@ -1,4 +1,4 @@
-package gcs.infa.maven.axonsslprotector;
+package gcs.infa.maven.axonsslprotector.service;
 
 import java.util.HashMap;
 import java.util.Map;

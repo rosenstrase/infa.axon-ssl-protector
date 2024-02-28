@@ -1,4 +1,4 @@
-package gcs.infa.maven.axonsslprotector;
+package gcs.infa.maven.axonsslprotector.ui;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,12 +16,18 @@ import javax.swing.JTextField;
 
 import org.bouncycastle.asn1.x500.X500Name;
 
+import gcs.infa.maven.axonsslprotector.generator.X509CertificateGenerator;
+import gcs.infa.maven.axonsslprotector.main.Main;
+import gcs.infa.maven.axonsslprotector.service.GenerateKeypair;
+import gcs.infa.maven.axonsslprotector.service.ServiceLocator;
+import gcs.infa.maven.axonsslprotector.writer.FileCertificateWriter;
+
 public class CertificateGeneratorGUI extends JFrame {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1147658359L;
 
 	private JTextField eField;
 	private JTextField cnField;
@@ -94,7 +100,7 @@ public class CertificateGeneratorGUI extends JFrame {
 
 		try {
 
-			KeyGenerator keyGen = (KeyGenerator) ServiceLocator.getService("KeyGenerator");
+			GenerateKeypair keyGen = (GenerateKeypair) ServiceLocator.getService("KeyGenerator");
 
 			X509CertificateGenerator certGen = (X509CertificateGenerator) ServiceLocator
 					.getService("X509CertificateGenerator");
@@ -107,7 +113,7 @@ public class CertificateGeneratorGUI extends JFrame {
 			X509Certificate cert = certGen.generateX509Certificate(keyGen.getPrivateKey(), keyGen.getPublicKey(),
 					issuer, 0, true);
 
-			CertificateWriter certificateWriter = (CertificateWriter) ServiceLocator.getService("CertificateWriter");
+			FileCertificateWriter certificateWriter = (FileCertificateWriter) ServiceLocator.getService("CertificateWriter");
 			certificateWriter.writeCertificateToFile(cert, fileName, ".crt");
 
 			JOptionPane.showMessageDialog(this, "Certificate generated successfully");

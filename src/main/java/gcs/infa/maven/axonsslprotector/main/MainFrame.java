@@ -1,4 +1,4 @@
-package gcs.infa.maven.axonsslprotector;
+package gcs.infa.maven.axonsslprotector.main;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -6,6 +6,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+
+import gcs.infa.maven.axonsslprotector.ui.CertificateGeneratorGUI;
 
 public class MainFrame extends JFrame {
 

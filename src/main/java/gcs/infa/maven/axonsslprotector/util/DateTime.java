@@ -1,4 +1,4 @@
-package gcs.infa.maven.axonsslprotector;
+package gcs.infa.maven.axonsslprotector.util;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

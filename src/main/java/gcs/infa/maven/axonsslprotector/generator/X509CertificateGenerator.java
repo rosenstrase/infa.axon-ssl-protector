@@ -1,4 +1,4 @@
-package gcs.infa.maven.axonsslprotector;
+package gcs.infa.maven.axonsslprotector.generator;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -20,14 +20,18 @@ import org.bouncycastle.pkcs.PKCS10CertificationRequestBuilder;
 import org.bouncycastle.pkcs.jcajce.JcaPKCS10CertificationRequest;
 import org.bouncycastle.pkcs.jcajce.JcaPKCS10CertificationRequestBuilder;
 
-public class X509CertificateGenerator implements CertificateGeneratorInterface {
+import gcs.infa.maven.axonsslprotector.service.GenerateKeypair;
+import gcs.infa.maven.axonsslprotector.service.ServiceLocator;
+import gcs.infa.maven.axonsslprotector.util.DateTime;
 
-	private final KeyGenerator keyGenerator;
+public class X509CertificateGenerator implements CertificateGenerator {
+
+	private final GenerateKeypair keyGenerator;
 	private static final String signatureRsa = "SHA256withRSA";
 
 	public X509CertificateGenerator() {
 		try {
-			this.keyGenerator = (KeyGenerator) ServiceLocator.getService("KeyGenerator");
+			this.keyGenerator = (GenerateKeypair) ServiceLocator.getService("KeyGenerator");
 		} catch (ClassCastException e) {
 			throw new RuntimeException("Service Locator returned an object that could not be cast to KeyGenerator", e);
 		}

@@ -1,11 +1,11 @@
-package gcs.infa.maven.axonsslprotector;
+package gcs.infa.maven.axonsslprotector.writer;
 
 import java.io.FileWriter;
 import java.security.cert.X509Certificate;
 
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 
-public class CertificateWriter implements CertificateWriterInterface {
+public class FileCertificateWriter implements CertificateWriter {
 
 	@Override
 	public void writeCertificateToFile(X509Certificate certificate, String fileName, String fileExtension) {

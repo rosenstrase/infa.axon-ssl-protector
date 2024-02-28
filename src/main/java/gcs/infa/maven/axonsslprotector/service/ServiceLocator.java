@@ -1,4 +1,4 @@
-package gcs.infa.maven.axonsslprotector;
+package gcs.infa.maven.axonsslprotector.service;
 
 public class ServiceLocator {
 	private static Cache cache = new Cache();

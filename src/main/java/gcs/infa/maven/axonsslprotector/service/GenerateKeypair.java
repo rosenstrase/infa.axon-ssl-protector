@@ -1,4 +1,4 @@
-package gcs.infa.maven.axonsslprotector;
+package gcs.infa.maven.axonsslprotector.service;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -7,13 +7,15 @@ import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-public class KeyGenerator implements KeyGeneratorInterface {
+import gcs.infa.maven.axonsslprotector.util.SignatureAlgorithm;
+
+public class GenerateKeypair implements KeyGenerator {
 
 	private final KeyPair keyPair;
 	private final int bitCount;
 	private final SignatureAlgorithm algorithmIdentifier;
 
-	public KeyGenerator(SignatureAlgorithm algorithmIdentifier, int bitCount)
+	public GenerateKeypair(SignatureAlgorithm algorithmIdentifier, int bitCount)
 			throws NoSuchProviderException, NoSuchAlgorithmException {
 		this.bitCount = bitCount;
 		this.algorithmIdentifier = algorithmIdentifier;
