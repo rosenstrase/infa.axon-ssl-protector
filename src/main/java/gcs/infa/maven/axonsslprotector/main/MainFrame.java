@@ -7,6 +7,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import gcs.infa.maven.axonsslprotector.service.ServiceLocator;
+import gcs.infa.maven.axonsslprotector.service.SystemInfoService;
 import gcs.infa.maven.axonsslprotector.ui.CertificateGeneratorGUI;
 
 public class MainFrame extends JFrame {
@@ -14,7 +16,11 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = -1668300803666889008L;
 
 	public MainFrame() {
-		setTitle("AxonSSLProtector");
+
+		// Call hostname Service
+		SystemInfoService systemInfoService = (SystemInfoService) ServiceLocator.getService("SystemInfoService");
+
+		setTitle("AxonSSLProtector" + systemInfoService.getHostname());
 		setSize(400, 200);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
