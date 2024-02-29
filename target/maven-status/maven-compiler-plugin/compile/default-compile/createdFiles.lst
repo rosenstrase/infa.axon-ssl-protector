@@ -1,6 +1,7 @@
 gcs\infa\maven\axonsslprotector\processor\SimpleCertificateDataProcessor.class
 gcs\infa\maven\axonsslprotector\processor\GenerateCertificateAction.class
 gcs\infa\maven\axonsslprotector\writer\CertificateWriter.class
+gcs\infa\maven\axonsslprotector\service\SystemInfoService.class
 gcs\infa\maven\axonsslprotector\service\ServiceLocator.class
 gcs\infa\maven\axonsslprotector\service\Cache.class
 gcs\infa\maven\axonsslprotector\service\KeyGenerator.class
