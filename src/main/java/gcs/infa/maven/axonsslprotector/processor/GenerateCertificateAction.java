@@ -17,6 +17,7 @@ import gcs.infa.maven.axonsslprotector.generator.CertificateGenerator;
 import gcs.infa.maven.axonsslprotector.main.Main;
 import gcs.infa.maven.axonsslprotector.service.GenerateKeypair;
 import gcs.infa.maven.axonsslprotector.service.ServiceLocator;
+import gcs.infa.maven.axonsslprotector.service.ValidationService;
 import gcs.infa.maven.axonsslprotector.ui.CertificateGeneratorGUI;
 import gcs.infa.maven.axonsslprotector.writer.CertificateWriter;
 
@@ -25,9 +26,6 @@ public class GenerateCertificateAction implements ActionListener {
 	private CertificateDataProcessor dataProcessor;
 	private CertificateGenerator certGenerator;
 	private CertificateWriter certWriter;
-
-	private static final int DEFAULT_VALIDITY_PERIOD = 10950; // 30 years
-	private static final boolean DEFAULT_IS_CA = false;
 
 	public GenerateCertificateAction(CertificateGeneratorGUI gui, CertificateDataProcessor dataProcessor,
 			CertificateGenerator certGenerator,
@@ -40,18 +38,34 @@ public class GenerateCertificateAction implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		ValidationService validationService = (ValidationService) ServiceLocator.getService("ValidationService");
+		Integer validityPeriod = null;
+		Boolean isCA = null;
 
-		int validityPeriod = DEFAULT_VALIDITY_PERIOD;
-		boolean isCA = DEFAULT_IS_CA;
+		String country = gui.getCountryField().trim();
+		String state = gui.getStateField().trim();
+		String locality = gui.getLocalityField().trim();
+		String organization = gui.getOrganizationField().trim();
+		String organizationalunit = gui.getOrganizationalUnitField().trim();
+		String commonName = gui.getCommonNameField().trim();
+		String email = gui.getEmailField().trim();
+
+		// VALIDATION PROCESS
+		if (!validationService.isValidEmail(email)) {
+			JOptionPane.showMessageDialog(gui, "Email is not in the correct format.", "Validation Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 
 		Map<String, String> formData = new HashMap<>();
-		formData.put("country", gui.getCountryField());
-		formData.put("state", gui.getStateField());
-		formData.put("locality", gui.getLocalityField());
-		formData.put("organization", gui.getOrganizationField());
-		formData.put("organizationalunit", gui.getOrganizationalUnitField());
-		formData.put("commonName", gui.getCommonNameField());
-		formData.put("email", gui.getEmailField());
+		formData.put("country", country);
+		formData.put("state", state);
+		formData.put("locality", locality);
+		formData.put("organization", organization);
+		formData.put("organizationalunit", organizationalunit);
+		formData.put("commonName", commonName);
+		formData.put("email", email);
 
 		X500Name issuer = dataProcessor.generateX500Name(formData);
 

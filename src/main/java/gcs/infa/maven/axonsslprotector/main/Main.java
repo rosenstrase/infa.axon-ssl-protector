@@ -7,7 +7,9 @@ import javax.swing.SwingUtilities;
 
 import gcs.infa.maven.axonsslprotector.generator.X509CertificateGenerator;
 import gcs.infa.maven.axonsslprotector.service.GenerateKeypair;
+import gcs.infa.maven.axonsslprotector.service.InputValidator;
 import gcs.infa.maven.axonsslprotector.service.ServiceLocator;
+import gcs.infa.maven.axonsslprotector.service.ValidationService;
 import gcs.infa.maven.axonsslprotector.util.SignatureAlgorithm;
 import gcs.infa.maven.axonsslprotector.writer.FileCertificateWriter;
 
@@ -31,16 +33,17 @@ public class Main
 		try {
 			GenerateKeypair keyGenerator = new GenerateKeypair(SignatureAlgorithm.RSA, 4096);
 			ServiceLocator.registerService("KeyGenerator", keyGenerator);
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("Failed to initialize KeyGenerator: No Such Algorithm available", e);
-		} catch (NoSuchProviderException e) {
-			throw new RuntimeException("Failed to initialize KeyGenerator: No Such Provider available", e);
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to initialize KeyGenerator", e);
+
+			FileCertificateWriter certificateWriter = new FileCertificateWriter();
+			ServiceLocator.registerService("CertificateWriter", certificateWriter);
+
+			X509CertificateGenerator x509certificateGenerator = new X509CertificateGenerator();
+			ServiceLocator.registerService("X509CertificateGenerator", x509certificateGenerator);
+
+			ValidationService inputValidator = new InputValidator();
+			ServiceLocator.registerService("ValidationService", inputValidator);
+		} catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+			throw new RuntimeException("Failed to initialize a required service", e);
 		}
-		FileCertificateWriter certificateWriter = new FileCertificateWriter();
-		ServiceLocator.registerService("CertificateWriter", certificateWriter);
-		X509CertificateGenerator x509certificateGenerator = new X509CertificateGenerator();
-		ServiceLocator.registerService("X509CertificateGenerator", x509certificateGenerator);
 	}
 }

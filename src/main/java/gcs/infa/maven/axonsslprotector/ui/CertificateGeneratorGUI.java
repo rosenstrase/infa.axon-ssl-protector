@@ -1,6 +1,8 @@
 package gcs.infa.maven.axonsslprotector.ui;
 
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -30,12 +32,14 @@ public class CertificateGeneratorGUI extends JFrame {
 
 	public CertificateGeneratorGUI() {
 
-		setTitle("Certificate Generator");
-		setSize(400, 200);
+		setTitle("Certificate Form");
+		setSize(400, 400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(4, 2));
+		JPanel panel = new JPanel(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
 
 		eField = new JTextField(20);
 		cnField = new JTextField(20);
@@ -45,25 +49,39 @@ public class CertificateGeneratorGUI extends JFrame {
 		stField = new JTextField(20);
 		cField = new JTextField(20);
 
-		JButton generateButton = new JButton("Generate Certificate");
-		generateButton.addActionListener(createGenerateCertificateAction());
+		panel.add(new JLabel("Email:"), gbc);
+		panel.add(eField, gbc);
+		panel.add(new JLabel("Common Name:"), gbc);
+		panel.add(cnField, gbc);
+		panel.add(new JLabel("Org Unit:"), gbc);
+		panel.add(ouField, gbc);
+		panel.add(new JLabel("Org:"), gbc);
+		panel.add(oField, gbc);
+		panel.add(new JLabel("Locality:"), gbc);
+		panel.add(lField, gbc);
+		panel.add(new JLabel("State:"), gbc);
+		panel.add(stField, gbc);
+		panel.add(new JLabel("Country:"), gbc);
+		panel.add(cField, gbc);
 
-		panel.add(new JLabel("Email:"));
-		panel.add(eField);
-		panel.add(new JLabel("Common Name:"));
-		panel.add(cnField);
-		panel.add(new JLabel("Org Unit:"));
-		panel.add(ouField);
-		panel.add(new JLabel("Org:"));
-		panel.add(oField);
-		panel.add(new JLabel("Locality:"));
-		panel.add(lField);
-		panel.add(new JLabel("State:"));
-		panel.add(stField);
-		panel.add(new JLabel("Country:"));
-		panel.add(cField);
-		panel.add(new JLabel(""));
-		panel.add(generateButton);
+		JButton submitButton = new JButton("Submit");
+		submitButton.addActionListener(createGenerateCertificateAction());
+		
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				closeForm();
+			}
+		});
+
+		gbc.weightx = 0.5;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.NONE;
+
+		panel.add(submitButton, gbc);
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		panel.add(cancelButton, gbc);
 
 		add(panel);
 		setVisible(true);
@@ -76,6 +94,10 @@ public class CertificateGeneratorGUI extends JFrame {
 		CertificateWriter certWriter = (CertificateWriter) ServiceLocator.getService("CertificateWriter");
 
 		return new GenerateCertificateAction(this, dataProcessor, certGenerator, certWriter);
+	}
+
+	private void closeForm() {
+		this.dispose();
 	}
 
 	public String getCountryField() {
