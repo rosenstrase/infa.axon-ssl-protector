@@ -6,7 +6,7 @@
 
   <groupId>gcs.infa.maven</groupId>
   <artifactId>axonsslprotector</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.3-SNAPSHOT</version>
 
   <name>axon-ssl-protector</name>
   <url>https://github.com/rosenstrase/infa.axon-ssl-protector</url>
