@@ -8,6 +8,8 @@ import javax.swing.SwingUtilities;
 import gcs.infa.maven.axonsslprotector.generator.X509CertificateGenerator;
 import gcs.infa.maven.axonsslprotector.service.GenerateKeypair;
 import gcs.infa.maven.axonsslprotector.service.InputValidator;
+import gcs.infa.maven.axonsslprotector.service.PrivateKeyImpl;
+import gcs.infa.maven.axonsslprotector.service.PrivateKeyService;
 import gcs.infa.maven.axonsslprotector.service.ServiceLocator;
 import gcs.infa.maven.axonsslprotector.service.SystemInfoService;
 import gcs.infa.maven.axonsslprotector.service.ValidationService;
@@ -40,6 +42,9 @@ public class Main
 
 			GenerateKeypair keyGenerator = new GenerateKeypair(SignatureAlgorithm.RSA, 4096);
 			ServiceLocator.registerService("KeyGenerator", keyGenerator);
+
+			PrivateKeyService privateKeyService = new PrivateKeyImpl();
+			ServiceLocator.registerService("PrivateKeyService", privateKeyService);
 
 			FileCertificateWriter certificateWriter = new FileCertificateWriter();
 			ServiceLocator.registerService("CertificateWriter", certificateWriter);

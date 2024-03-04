@@ -9,6 +9,8 @@ C:\Users\nporter\eclipse-workspace\axon-ssl-protector\src\main\java\gcs\infa\mav
 C:\Users\nporter\eclipse-workspace\axon-ssl-protector\src\main\java\gcs\infa\maven\axonsslprotector\service\GenerateKeypair.java
 C:\Users\nporter\eclipse-workspace\axon-ssl-protector\src\main\java\gcs\infa\maven\axonsslprotector\service\InputValidator.java
 C:\Users\nporter\eclipse-workspace\axon-ssl-protector\src\main\java\gcs\infa\maven\axonsslprotector\service\KeyGenerator.java
+C:\Users\nporter\eclipse-workspace\axon-ssl-protector\src\main\java\gcs\infa\maven\axonsslprotector\service\PrivateKeyImpl.java
+C:\Users\nporter\eclipse-workspace\axon-ssl-protector\src\main\java\gcs\infa\maven\axonsslprotector\service\PrivateKeyService.java
 C:\Users\nporter\eclipse-workspace\axon-ssl-protector\src\main\java\gcs\infa\maven\axonsslprotector\service\ServiceLocator.java
 C:\Users\nporter\eclipse-workspace\axon-ssl-protector\src\main\java\gcs\infa\maven\axonsslprotector\service\SystemInfoService.java
 C:\Users\nporter\eclipse-workspace\axon-ssl-protector\src\main\java\gcs\infa\maven\axonsslprotector\service\ValidationService.java

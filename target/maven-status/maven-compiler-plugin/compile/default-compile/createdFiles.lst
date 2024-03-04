@@ -13,8 +13,10 @@ gcs\infa\maven\axonsslprotector\generator\X509CertificateGenerator.class
 gcs\infa\maven\axonsslprotector\ui\CertificateGeneratorGUI.class
 gcs\infa\maven\axonsslprotector\ui\CertificateGeneratorGUI$1.class
 gcs\infa\maven\axonsslprotector\main\MainFrame.class
+gcs\infa\maven\axonsslprotector\service\PrivateKeyImpl.class
 gcs\infa\maven\axonsslprotector\ui\Menu.class
 gcs\infa\maven\axonsslprotector\processor\CertificateDataProcessor.class
+gcs\infa\maven\axonsslprotector\service\PrivateKeyService.class
 gcs\infa\maven\axonsslprotector\util\DateTime.class
 gcs\infa\maven\axonsslprotector\writer\FileCertificateWriter.class
 gcs\infa\maven\axonsslprotector\service\GenerateKeypair.class
