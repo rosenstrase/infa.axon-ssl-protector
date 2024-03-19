@@ -49,19 +49,19 @@ public class CertificateGeneratorGUI extends JFrame {
 		stField = new JTextField(20);
 		cField = new JTextField(20);
 
-		panel.add(new JLabel("Email (eg, your company work email) [xxx@informatica.com]"), gbc);
+		panel.add(new JLabel("	Email [xxx@informatica.com]"), gbc);
 		panel.add(eField, gbc);
-		panel.add(new JLabel("Common Name (eg, your name or your server's hostname)"), gbc);
+		panel.add(new JLabel("	Common Name [Hostname]"), gbc);
 		panel.add(cnField, gbc);
-		panel.add(new JLabel("Organizational Unit Name (eg, section) [GCS]"), gbc);
+		panel.add(new JLabel("	Organizational Unit Name [GCS]"), gbc);
 		panel.add(ouField, gbc);
-		panel.add(new JLabel("Organization Name (eg, company) [INFA]"), gbc);
+		panel.add(new JLabel("	Organization Name [INFA]"), gbc);
 		panel.add(oField, gbc);
-		panel.add(new JLabel("Locality Name (eg, City) [Stuttgart]"), gbc);
+		panel.add(new JLabel("	Locality Name [Stuttgart]"), gbc);
 		panel.add(lField, gbc);
-		panel.add(new JLabel("State or Province Name [BW]"), gbc);
+		panel.add(new JLabel("	State or Province Name [BW]"), gbc);
 		panel.add(stField, gbc);
-		panel.add(new JLabel("Country Name (2 letter code) [DE]"), gbc);
+		panel.add(new JLabel("	Country Name (2 letter code) [DE]"), gbc);
 		panel.add(cField, gbc);
 
 		JButton submitButton = new JButton("Submit");

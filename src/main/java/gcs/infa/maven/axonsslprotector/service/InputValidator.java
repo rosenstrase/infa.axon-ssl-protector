@@ -3,7 +3,7 @@ package gcs.infa.maven.axonsslprotector.service;
 public class InputValidator implements ValidationService {
 
 	// PATTERNS
-	private static final String EMAIL_PATTERN = "^[\\w.-]+@informatica\\.com$";
+	private static final String EMAIL_PATTERN = "^[A-Za-z0-9+_.-]+@(.+)$";
 
 	@Override
 	public boolean isValidEmail(String email) {
