@@ -17,7 +17,7 @@ public class InputValidator implements ValidationService {
 
 	public InputValidator() {
 		// Load country codes from a JSON file during object construction
-		loadValidCountryCodes("/axon-ssl-protector/ISO3166-1.alpha2.json");
+		loadValidCountryCodes("/axon-ssl-protector/src/main/resources/ISO3166-1.alpha2.json");
 	}
 
 	private void loadValidCountryCodes(String jsonFilePath) {
